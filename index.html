@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>岩芯薄片显微照片索引台</title>
+  <title>岩芯薄片显微照片批次归档台</title>
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
@@ -11,14 +11,31 @@
     <header class="mast">
       <div>
         <p>Petrographic Slide Index</p>
-        <h1>岩芯薄片显微照片索引台</h1>
+        <h1>岩芯薄片显微照片批次归档台</h1>
       </div>
       <button id="exportBtn" type="button">导出观察清单</button>
     </header>
 
+    <section class="batch-desk">
+      <div class="batch-current">
+        <h2>批次归档台</h2>
+        <p>当前归属批次：<strong id="activeBatchLabel">历史未归档</strong></p>
+        <div class="batch-controls">
+          <button id="newBatchBtn" type="button">新建批次</button>
+          <button id="archiveBatchBtn" type="button">归档当前批次</button>
+        </div>
+        <div id="archiveIssues" class="issues" hidden></div>
+      </div>
+      <div class="batch-history">
+        <h3>批次列表</h3>
+        <ul id="batchList"></ul>
+      </div>
+    </section>
+
     <section class="layout">
       <form id="sampleForm" class="editor">
         <h2>样本录入</h2>
+        <p class="form-target">新样本保存到：<strong id="formBatchName">历史未归档</strong></p>
         <label>显微照片<input id="photoInput" type="file" accept="image/*"></label>
         <label>样本编号<input name="code" required placeholder="BX-17-03"></label>
         <label>采样地点<input name="location" placeholder="剖面东侧第二层"></label>
@@ -47,12 +64,16 @@
             <option>正交偏光</option>
             <option>反射光</option>
           </select>
+          <select id="batchFilter">
+            <option value="all">全部批次</option>
+          </select>
         </div>
         <div id="sampleGrid" class="sample-grid"></div>
       </section>
 
       <aside class="compare">
         <h2>并排对比</h2>
+        <p id="compareContext" class="compare-context"></p>
         <div id="comparePane" class="compare-pane"></div>
       </aside>
     </section>

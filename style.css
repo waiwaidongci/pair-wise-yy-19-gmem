@@ -74,6 +74,162 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.batch-desk {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.batch-current,
+.batch-history {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgb(251 253 249 / 92%);
+  box-shadow: 0 14px 42px rgb(28 58 47 / 10%);
+  padding: 16px;
+}
+
+.batch-current p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.batch-current strong {
+  color: var(--ink);
+}
+
+.batch-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.batch-controls button {
+  flex: 1;
+}
+
+#archiveBatchBtn {
+  background: var(--amber);
+}
+
+.issues {
+  margin-top: 12px;
+  border: 1px solid #e0b4a0;
+  border-radius: 8px;
+  background: #fdf1ea;
+  color: #8a4b2a;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.issues ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.issues li {
+  margin-bottom: 4px;
+}
+
+.batch-history h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+
+#batchList {
+  display: grid;
+  gap: 8px;
+  max-height: 224px;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+.batch-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  padding: 10px 12px;
+}
+
+.batch-item.is-active {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.batch-item.is-locked {
+  background: #f4f7f2;
+}
+
+.batch-meta p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.batch-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.batch-actions button {
+  min-height: 32px;
+  padding: 0 10px;
+  background: #e8f0eb;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.chip {
+  display: inline-block;
+  margin-left: 8px;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  vertical-align: 2px;
+}
+
+.chip-draft {
+  background: #fdf3e0;
+  color: var(--amber);
+}
+
+.chip-archived {
+  background: #e3ece7;
+  color: var(--muted);
+}
+
+.chip-legacy {
+  background: #e8f0eb;
+  color: var(--accent);
+}
+
+.form-target,
+.compare-context {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.form-target strong,
+.compare-context strong {
+  color: var(--ink);
+}
+
 .layout {
   display: grid;
   grid-template-columns: 310px minmax(360px, 1fr) 340px;
@@ -136,7 +292,7 @@ textarea {
 
 .filters {
   display: grid;
-  grid-template-columns: 1fr 180px;
+  grid-template-columns: 1fr 150px 200px;
   gap: 10px;
   margin-bottom: 12px;
 }
@@ -175,6 +331,20 @@ textarea {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.45;
+}
+
+.sample-body .batch-tag {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sample-card.is-locked img {
+  filter: saturate(0.85);
+}
+
+.locked-note {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .card-actions {
@@ -224,7 +394,8 @@ textarea {
 }
 
 @media (max-width: 1120px) {
-  .layout {
+  .layout,
+  .batch-desk {
     grid-template-columns: 1fr;
   }
 
