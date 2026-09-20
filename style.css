@@ -6,6 +6,8 @@
   --line: #c9d6cf;
   --accent: #2b7666;
   --amber: #b98225;
+  --danger: #a23b2d;
+  --danger-bg: #f8e9e5;
 }
 
 * {
@@ -74,6 +76,16 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button.ghost {
+  background: #e8f0eb;
+  color: var(--ink);
+}
+
 .layout {
   display: grid;
   grid-template-columns: 310px minmax(360px, 1fr) 340px;
@@ -81,9 +93,12 @@ button {
   align-items: start;
 }
 
-.editor,
-.board,
-.compare {
+.left-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.panel {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgb(251 253 249 / 92%);
@@ -91,7 +106,9 @@ button {
 }
 
 .editor,
-.compare {
+.compare,
+.batches,
+.gate {
   padding: 16px;
 }
 
@@ -124,21 +141,160 @@ textarea {
   gap: 10px;
 }
 
-.editor button {
+.editor button,
+.gate button {
   width: 100%;
-  margin-top: 14px;
+  margin-top: 10px;
 }
 
+.form-note,
+.compare-note,
+.board-sub {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 批次面板 */
+.batch-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.batch-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  text-align: left;
+}
+
+.batch-row.is-active {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.batch-name {
+  font-size: 14px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.batch-meta {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.badge-draft {
+  background: #f5ead2;
+  color: var(--amber);
+}
+
+.badge-archived {
+  background: #dde7e2;
+  color: var(--accent);
+}
+
+.batch-hint {
+  min-height: 16px;
+  margin: 8px 0 0;
+  color: var(--amber);
+  font-size: 12px;
+}
+
+.batch-actions {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.batch-actions button {
+  width: 100%;
+}
+
+/* 主看板 */
 .board {
   min-height: 720px;
   padding: 12px;
+}
+
+.board-head {
+  padding: 4px 4px 0;
+}
+
+.history-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 4px 0;
+  padding: 10px 12px;
+  border: 1px solid #c9d6cf;
+  border-radius: 8px;
+  background: #e6efea;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.history-banner span {
+  flex: 1 1 240px;
+}
+
+.history-banner button {
+  min-height: 34px;
+  padding: 0 12px;
+}
+
+.issues {
+  margin: 10px 4px 0;
+  padding: 12px;
+  border: 1px solid #d9a99f;
+  border-radius: 8px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.issues ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.issues code {
+  font-weight: 700;
 }
 
 .filters {
   display: grid;
   grid-template-columns: 1fr 180px;
   gap: 10px;
-  margin-bottom: 12px;
+  margin: 12px 4px;
 }
 
 .sample-grid {
@@ -148,6 +304,7 @@ textarea {
 }
 
 .sample-card {
+  position: relative;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -159,6 +316,24 @@ textarea {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   background: #dfe9e4;
+}
+
+.photo-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: repeating-linear-gradient(45deg, #dfe9e4, #dfe9e4 12px, #d4e0d9 12px, #d4e0d9 24px);
+}
+
+.card-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgb(43 118 102 / 92%);
+  color: white;
 }
 
 .sample-body {
@@ -200,6 +375,11 @@ textarea {
   min-height: 32px;
   background: #e8f0eb;
   color: var(--ink);
+}
+
+.card-lock {
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .compare-pane {
